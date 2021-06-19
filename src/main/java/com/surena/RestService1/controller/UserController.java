@@ -1,5 +1,8 @@
 package com.surena.RestService1.controller;
 
+import com.surena.RestService1.dto.UserGetDto;
+import com.surena.RestService1.dto.UserPostDto;
+import com.surena.RestService1.mapper.MapStructMapper;
 import com.surena.RestService1.model.User;
 import com.surena.RestService1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,29 +18,32 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private MapStructMapper mapstructMapper;
+
     @PostMapping("/save")
-    public void save(@Valid @RequestBody User user) {
-        service.save(user);
+    public void save(@Valid @RequestBody UserPostDto userPostDto) {
+        service.save(mapstructMapper.userPostDtoToUser(userPostDto));
     }
 
     @PutMapping("/update")
-    public void update(@Valid @RequestBody User user) {
-        service.update(user);
+    public void update(@Valid @RequestBody UserPostDto userPostDto) {
+        service.update(mapstructMapper.userPostDtoToUser(userPostDto));
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return service.getAllUsers();
+    public List<UserGetDto> getAllUsers() {
+        return mapstructMapper.userToUserGetDto(service.getAllUsers());
     }
 
     @RequestMapping(params = "username", method = RequestMethod.GET)
-    public User getByUsername(@RequestParam("username") String username) {
-        return service.getByUsername(username);
+    public UserGetDto getByUsername(@RequestParam("username") String username) {
+        return mapstructMapper.userToUserGetDto(service.getByUsername(username));
     }
 
     @RequestMapping(params = "id", method = RequestMethod.GET)
-    public User getById(@RequestParam("id") Long id) {
-        return service.getById(id);
+    public UserGetDto getById(@RequestParam("id") Long id) {
+        return mapstructMapper.userToUserGetDto(service.getById(id));
     }
 
     @RequestMapping(params = "id", method = RequestMethod.DELETE)
