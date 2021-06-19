@@ -50,18 +50,15 @@ public class UserServiceTest {
 
 
     // TODO it fails.
-/*    @Test
+    @Test
     public void updateUser() {
-        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
-
+       /* User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         user1.setUsername("SamMJ2");
-
         userRepository.save(user1);
-
         User updatedUser = userRepository.findByUsername("SamMJ2");
-
         assertThat(updatedUser.getUsername()).isEqualTo("SamMJ2");
-    }*/
+       */
+    }
 
     @Test
     public void get_user_by_id() {

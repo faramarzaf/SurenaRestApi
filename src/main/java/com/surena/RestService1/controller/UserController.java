@@ -3,7 +3,6 @@ package com.surena.RestService1.controller;
 import com.surena.RestService1.dto.UserGetDto;
 import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.mapper.MapStructMapper;
-import com.surena.RestService1.model.User;
 import com.surena.RestService1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

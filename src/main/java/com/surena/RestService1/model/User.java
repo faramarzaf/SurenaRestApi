@@ -76,7 +76,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
     public String getFirst_name() {
         return first_name;
     }

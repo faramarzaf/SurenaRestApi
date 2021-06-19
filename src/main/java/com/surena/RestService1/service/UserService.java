@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
 
 
@@ -30,7 +31,6 @@ public class UserService {
         repository.save(updatedUser);
     }
 
-
     public List<User> getAllUsers() {
         return repository.findAll();
     }
@@ -43,12 +43,12 @@ public class UserService {
         return repository.findUserById(id);
     }
 
-    @Transactional
+
     public void deleteById(Long id) {
         repository.deleteUserById(id);
     }
 
-    @Transactional
+
     public void deleteByUsername(String username) {
         repository.deleteByUsername(username);
     }

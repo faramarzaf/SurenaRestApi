@@ -3,7 +3,6 @@ package com.surena.RestService1.dto;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
-
 public class UserPostDto {
 
     private Long id;
