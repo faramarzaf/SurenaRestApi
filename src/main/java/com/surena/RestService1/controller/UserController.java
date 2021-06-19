@@ -30,6 +30,11 @@ public class UserController {
         service.update(mapstructMapper.userPostDtoToUser(userPostDto));
     }
 
+    @PutMapping("/updatePassword")
+    public void updatePassword(@Valid @RequestBody UserPostDto userPostDto) {
+        service.updatePassword(mapstructMapper.userPostDtoToUser(userPostDto));
+    }
+
     @GetMapping
     public List<UserGetDto> getAllUsers() {
         return mapstructMapper.userToUserGetDto(service.getAllUsers());

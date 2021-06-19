@@ -49,15 +49,17 @@ public class UserServiceTest {
     }
 
 
-    // TODO it fails.
     @Test
     public void updateUser() {
-       /* User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
-        user1.setUsername("SamMJ2");
-        userRepository.save(user1);
-        User updatedUser = userRepository.findByUsername("SamMJ2");
-        assertThat(updatedUser.getUsername()).isEqualTo("SamMJ2");
-       */
+        when(userRepository.save(any(User.class))).thenReturn((
+                new User(1L, "SamMJ", "0123", "Sam", "Johns")));
+
+        User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
+        userService.save(user);
+
+        assertThat(user.getFirst_name()).isEqualTo("Sam00");
+        assertThat(user.getLast_name()).isEqualTo("Johns00");
+
     }
 
     @Test
@@ -78,7 +80,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void get_employee_by_username() {
+    public void get_user_by_username() {
         when(userRepository.findByUsername("SamMJ"))
                 .thenReturn((new User(1L, "SamMJ", "0123", "Sam", "Johns")));
 

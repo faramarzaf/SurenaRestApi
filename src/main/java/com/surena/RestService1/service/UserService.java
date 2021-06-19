@@ -31,6 +31,15 @@ public class UserService {
         repository.save(updatedUser);
     }
 
+    public void updatePassword(User user) {
+        User updatedUser = repository.getOne(user.getId());
+        if (updatedUser.getPassword().equals(user.getPassword())) {
+            updatedUser.setPassword(user.getPassword());
+            repository.save(updatedUser);
+        } else
+            throw new ApiRequestException("Invalid password!");
+    }
+
     public List<User> getAllUsers() {
         return repository.findAll();
     }
