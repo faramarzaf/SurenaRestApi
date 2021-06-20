@@ -16,6 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import static org.junit.Assert.assertFalse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -37,9 +45,13 @@ public class UserServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    private Validator validator;
+
     @Before
     public void init() {
         userService = new UserService();
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -58,6 +70,18 @@ public class UserServiceTest {
 
         verify(userRepository, times(1)).save(user);
     }
+
+    @Test
+    public void save_invalid_user() {
+        User user = new User(1L, "", "", null, "Sam00", "Johns00");
+        userService.save(user);
+        verify(userRepository, never()).save(user);
+
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        assertThat(violations.size()).isEqualTo(2);
+
+    }
+
 
     @Test
     public void throw_exception_when_username_taken() {
