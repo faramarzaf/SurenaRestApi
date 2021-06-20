@@ -34,7 +34,7 @@ public class UserService {
             user1.setFirst_name(user.getFirst_name());
             user1.setLast_name(user.getLast_name());
 
-            repository.save(user);
+            repository.save(user1);
         }
     }
 
@@ -48,8 +48,8 @@ public class UserService {
     public void updatePassword(User user) {
         User updatedUser = repository.findUserById(user.getId());
         if (user.getOld_password().equals(updatedUser.getOld_password())) {
-            updatedUser.setNew_password(user.getNew_password());
-            updatedUser.setOld_password(user.getNew_password());
+            updatedUser.setNew_password(passwordEncoder.encode(user.getNew_password()));
+            updatedUser.setOld_password(passwordEncoder.encode(user.getNew_password()));
             repository.save(updatedUser);
         } else
             throw new ApiRequestException("Invalid password!");
