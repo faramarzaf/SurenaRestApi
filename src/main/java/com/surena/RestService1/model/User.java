@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -129,4 +130,28 @@ public class User {
     public void setModified_date(LocalDateTime modified_date) {
         this.modified_date = modified_date;
     }
+
+
+    /**
+     *  @Override equals for save_user method in UserServiceTest class.
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!Objects.equals(id, user.id)) return false;
+        if (!Objects.equals(username, user.username)) return false;
+        if (!Objects.equals(old_password, user.old_password)) return false;
+        if (!Objects.equals(new_password, user.new_password)) return false;
+        if (!Objects.equals(first_name, user.first_name)) return false;
+        if (!Objects.equals(last_name, user.last_name)) return false;
+        if (!Objects.equals(create_date, user.create_date)) return false;
+        return Objects.equals(modified_date, user.modified_date);
+    }
+
+
 }

@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Before
     public void init() {
@@ -37,35 +40,38 @@ public class UserServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
-
     @Test
     public void save_user() {
- /*       User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
+
+        User user = new User();
+        String encodedPassword = passwordEncoder.encode("0123");
+
+        user.setUsername("SamMJ");
+        user.setOld_password(encodedPassword);
+        user.setFirst_name("Sam");
+        user.setLast_name("Johns");
 
         userService.save(user);
 
         verify(userRepository, times(1)).save(user);
-*/
     }
-
 
     @Test
     public void updateUser() {
-  /*      when(userRepository.save(any(User.class))).thenReturn((
-                new User(1L, "SamMJ", "0123", "Sam", "Johns")));
+        when(userRepository.save(any(User.class))).thenReturn((
+                new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns")));
 
-        User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
+        User user = new User(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
         userService.save(user);
 
         assertThat(user.getFirst_name()).isEqualTo("Sam00");
-        assertThat(user.getLast_name()).isEqualTo("Johns00");*/
-
+        assertThat(user.getLast_name()).isEqualTo("Johns00");
     }
 
     @Test
     public void get_user_by_id() {
-/*        when(userRepository.findUserById(1L)).thenReturn((
-                new User(1L, "SamMJ", "0123", "Sam", "Johns"))
+        when(userRepository.findUserById(1L)).thenReturn((
+                new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns"))
         );
 
         User user = userService.getById(1L);
@@ -73,39 +79,38 @@ public class UserServiceTest {
         assertEquals(1L, user.getId());
         assertEquals("SamMJ", user.getUsername());
         assertEquals("0123", user.getOld_password());
+        assertEquals("0124", user.getNew_password());
         assertEquals("Sam", user.getFirst_name());
-        assertEquals("Johns", user.getLast_name());*/
+        assertEquals("Johns", user.getLast_name());
 
     }
-
 
     @Test
     public void get_user_by_username() {
         when(userRepository.findByUsername("SamMJ"))
-                .thenReturn((new User(1L, "SamMJ", "0123","01234", "Sam", "Johns")));
+                .thenReturn((new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns")));
 
         User user = userService.getByUsername("SamMJ");
 
         assertEquals(1L, user.getId());
         assertEquals("SamMJ", user.getUsername());
         assertEquals("0123", user.getOld_password());
-        assertEquals("01234", user.getNew_password());
+        assertEquals("0124", user.getNew_password());
         assertEquals("Sam", user.getFirst_name());
         assertEquals("Johns", user.getLast_name());
     }
 
-
     @Test
     public void find_all_users() {
 
- /*       List<User> list = new ArrayList<>();
-        User user1 = new User(1L, "SamMJ", "0123",
+        List<User> list = new ArrayList<>();
+        User user1 = new User(1L, "SamMJ", "0123", "0124",
                 "Sam", "Johns", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
-        User user2 = new User(1L, "JohnWoo", "2525",
+        User user2 = new User(1L, "JohnWoo", "2525", "2524",
                 "John", "Woods", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
-        User user3 = new User(1L, "SamuelM", "0141",
+        User user3 = new User(1L, "SamuelM", "0141", "0142",
                 "Samuel", "Mit", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
 
@@ -118,27 +123,25 @@ public class UserServiceTest {
         List<User> empList = userService.getAllUsers();
 
         assertEquals(3, empList.size());
-        verify(userRepository, times(1)).findAll();*/
+        verify(userRepository, times(1)).findAll();
 
     }
 
-
     @Test
     public void delete_user_by_username() {
-       /* User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
         userRepository.deleteByUsername(user1.getUsername());
         User deletedUser = userRepository.findByUsername("SamMJ");
-        assertThat(deletedUser).isNull();*/
+        assertThat(deletedUser).isNull();
     }
 
 
     @Test
     public void delete_user_by_id() {
-        /*User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
         userRepository.deleteUserById(user1.getId());
         User deletedUser = userRepository.findUserById(1L);
-        assertThat(deletedUser).isNull();*/
+        assertThat(deletedUser).isNull();
     }
-
 
 }
