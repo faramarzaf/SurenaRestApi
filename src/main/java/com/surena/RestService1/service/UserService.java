@@ -60,11 +60,19 @@ public class UserService {
     }
 
     public User getByUsername(String username) {
-        return repository.findByUsername(username);
+        User userByUsername = repository.findByUsername(username);
+        if (userByUsername == null)
+            throw new ApiRequestException("User with username " + username + " not found!");
+        else
+            return repository.findByUsername(username);
     }
 
     public User getById(Long id) {
-        return repository.findUserById(id);
+        User userById = repository.findUserById(id);
+        if (userById == null)
+            throw new ApiRequestException("User with id " + id + " not found!");
+        else
+            return repository.findUserById(id);
     }
 
 
