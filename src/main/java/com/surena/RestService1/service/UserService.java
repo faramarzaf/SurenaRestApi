@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public void update(User user) {
-        User updatedUser = repository.getOne(user.getId());
+        User updatedUser = repository.findUserById(user.getId());
         updatedUser.setFirst_name(user.getFirst_name());
         updatedUser.setLast_name(user.getLast_name());
         repository.save(updatedUser);
