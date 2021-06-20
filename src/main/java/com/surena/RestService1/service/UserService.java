@@ -4,6 +4,7 @@ import com.surena.RestService1.exception.ApiRequestException;
 import com.surena.RestService1.model.User;
 import com.surena.RestService1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,11 +18,24 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public void save(User user) {
         if (userExists(user.getUsername()))
             throw new ApiRequestException("Username has already taken!");
-        else
+        else {
+            User user1 = new User();
+
+            String encodedPassword = passwordEncoder.encode(user.getOld_password());
+
+            user1.setUsername(user.getUsername());
+            user1.setOld_password(encodedPassword);
+            user1.setFirst_name(user.getFirst_name());
+            user1.setLast_name(user.getLast_name());
+
             repository.save(user);
+        }
     }
 
     public void update(User user) {
@@ -32,9 +46,10 @@ public class UserService {
     }
 
     public void updatePassword(User user) {
-        User updatedUser = repository.getOne(user.getId());
-        if (updatedUser.getPassword().equals(user.getPassword())) {
-            updatedUser.setPassword(user.getPassword());
+        User updatedUser = repository.findUserById(user.getId());
+        if (user.getOld_password().equals(updatedUser.getOld_password())) {
+            updatedUser.setNew_password(user.getNew_password());
+            updatedUser.setOld_password(user.getNew_password());
             repository.save(updatedUser);
         } else
             throw new ApiRequestException("Invalid password!");
