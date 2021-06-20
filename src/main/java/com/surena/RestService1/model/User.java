@@ -57,16 +57,6 @@ public class User {
         this.last_name = last_name;
     }
 
-/*
-    public User(long id, String username, String old_password, String first_name, String last_name) {
-        this.id = id;
-        this.username = username;
-        this.old_password = old_password;
-        this.first_name = first_name;
-        this.last_name = last_name;
-    }
-*/
-
     public Long getId() {
         return id;
     }
@@ -133,7 +123,7 @@ public class User {
 
 
     /**
-     *  @Override equals for save_user method in UserServiceTest class.
+     * @Override equals for save_user method in UserServiceTest class.
      */
 
     @Override

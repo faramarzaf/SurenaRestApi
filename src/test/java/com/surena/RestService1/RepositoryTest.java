@@ -37,7 +37,7 @@ public class RepositoryTest {
     public void save_user() {
         User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
         repository.save(user1);
-        User user2 = repository.findByUsername("SamMJ");
+        User user2 = repository.findTopByUsername("SamMJ");
         assertNotNull(user1);
         assertEquals(user2.getFirst_name(), user1.getFirst_name());
         assertEquals(user2.getLast_name(), user1.getLast_name());
@@ -45,10 +45,9 @@ public class RepositoryTest {
 
     @Test
     public void get_user_by_username() {
-
         User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
         repository.save(user1);
-        User user2 = repository.findByUsername("SamMJ");
+        User user2 = repository.findTopByUsername("SamMJ");
         assertNotNull(user1);
         assertEquals(user2.getFirst_name(), user1.getFirst_name());
         assertEquals(user2.getLast_name(), user1.getLast_name());
@@ -56,13 +55,11 @@ public class RepositoryTest {
 
     @Test
     public void get_user_by_id() {
-
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "Sara", "0123", "0124", "Sara", "Johns");
         repository.save(user1);
-        User user2 = repository.findUserById(user1.getId());
+        User user2 = repository.getById(user1.getId());
         assertNotNull(user1);
-        assertEquals(user2.getFirst_name(), user1.getFirst_name());
-        assertEquals(user2.getLast_name(), user1.getLast_name());
+        assertEquals(user2.getId(), user1.getId());
     }
 
     @Test

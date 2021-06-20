@@ -15,5 +15,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
+    /**
+     * Hibernate findTop --> The only one result.
+     * If you have not unique exception in your repository class, you can just pick top entity and solve non-unique situation.
+     */
+
+    User findTopByUsername(String username);
+
     boolean existsUserByUsername(String username);
 }
