@@ -76,13 +76,15 @@ public class UserService {
     }
 
 
-    public void deleteById(Long id) {
-        repository.deleteUserById(id);
+    public String deleteById(Long id) {
+        repository.deleteById(id);
+        return "User with id " + id + " removed.";
     }
 
 
-    public void deleteByUsername(String username) {
+    public String deleteByUsername(String username) {
         repository.deleteByUsername(username);
+        return "User with username " + username + " removed.";
     }
 
     private boolean userExists(String username) {

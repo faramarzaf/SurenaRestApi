@@ -51,13 +51,13 @@ public class UserController {
     }
 
     @RequestMapping(params = "id", method = RequestMethod.DELETE)
-    public void deleteById(@RequestParam("id") Long id) {
-        service.deleteById(id);
+    public String deleteById(@RequestParam("id") Long id) {
+        return service.deleteById(id);
     }
 
     @RequestMapping(params = "username", method = RequestMethod.DELETE)
-    public void deleteByUsername(@RequestParam("username") String username) {
-        service.deleteByUsername(username);
+    public String deleteByUsername(@RequestParam("username") String username) {
+        return service.deleteByUsername(username);
     }
 
 
