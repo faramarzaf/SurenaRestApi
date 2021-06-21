@@ -7,12 +7,8 @@ import com.surena.RestService1.controller.UserController;
 import com.surena.RestService1.dto.UserGetDto;
 import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.model.User;
-import com.surena.RestService1.service.UserService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,15 +40,6 @@ public class ControllerTest {
 
     @MockBean
     private UserController controller;
-
-    @InjectMocks
-    private UserService userService;
-
-    @Before
-    public void init() {
-        userService = new UserService();
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void get_all_users() throws Exception {
