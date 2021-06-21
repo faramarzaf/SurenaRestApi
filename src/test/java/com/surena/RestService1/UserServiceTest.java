@@ -137,8 +137,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void update_password() { //TODO faile
-  /*      when(userRepository.save(any(User.class))).thenReturn((
+    public void update_password() { //TODO fail
+/*        when(userRepository.save(any(User.class))).thenReturn((
                 new User(1L, "SamMJ",
                         passwordEncoder.encode("0123"),
                         null,
@@ -155,8 +155,7 @@ public class UserServiceTest {
         userService.updatePassword(user);
 
         assertThat(user.getNew_password()).isEqualTo(passwordEncoder.encode("0024"));
-        assertThat(user.getOld_password()).isEqualTo(passwordEncoder.encode("0024"));
-*/
+        assertThat(user.getOld_password()).isEqualTo(passwordEncoder.encode("0024"));*/
     }
 
     @Test

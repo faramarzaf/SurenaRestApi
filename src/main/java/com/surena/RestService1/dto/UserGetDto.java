@@ -24,6 +24,18 @@ public class UserGetDto {
 
     private LocalDateTime modified_date;
 
+    public UserGetDto() {
+    }
+
+    public UserGetDto(Long id, String username, String old_password, String new_password, String first_name, String last_name) {
+        this.id = id;
+        this.username = username;
+        this.old_password = old_password;
+        this.new_password = new_password;
+        this.first_name = first_name;
+        this.last_name = last_name;
+    }
+
     public Long getId() {
         return id;
     }
