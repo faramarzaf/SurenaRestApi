@@ -3,6 +3,7 @@ package com.surena.RestService1.controller;
 import com.surena.RestService1.dto.UserGetDto;
 import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.mapper.MapStructMapper;
+import com.surena.RestService1.model.User;
 import com.surena.RestService1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,9 @@ public class UserController {
     private MapStructMapper mapstructMapper;
 
     @PostMapping("/save")
-    public void save(@Valid @RequestBody UserPostDto userPostDto) {
-        service.save(mapstructMapper.userPostDtoToUser(userPostDto));
+    public User save(@Valid @RequestBody UserPostDto userPostDto) {
+        User user = mapstructMapper.userPostDtoToUser(userPostDto);
+        return service.save(user);
     }
 
     @PutMapping("/update")

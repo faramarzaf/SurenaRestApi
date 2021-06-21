@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void save(User user) {
+    public User save(User user) {
         if (userExists(user.getUsername()))
             throw new ApiRequestException("Username has already taken!");
         else {
@@ -33,8 +33,10 @@ public class UserService {
             user1.setOld_password(encodedPassword);
             user1.setFirst_name(user.getFirst_name());
             user1.setLast_name(user.getLast_name());
+            user1.setCreate_date(user.getCreate_date());
+            user1.setModified_date(user.getModified_date());
 
-            repository.save(user1);
+            return repository.save(user1);
         }
     }
 

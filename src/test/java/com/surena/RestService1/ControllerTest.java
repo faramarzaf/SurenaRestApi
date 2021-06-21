@@ -1,6 +1,8 @@
 package com.surena.RestService1;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.surena.RestService1.controller.UserController;
 import com.surena.RestService1.dto.UserGetDto;
 import com.surena.RestService1.dto.UserPostDto;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -28,8 +31,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -95,6 +97,21 @@ public class ControllerTest {
     }
 
     @Test
+    public void get_user_by_username() throws Exception {
+        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
+
+        given(controller.getByUsername(user1.getUsername())).willReturn(user1);
+
+        mvc.perform(get("/api/v1/?username=" + user1.getUsername())
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("username", equalTo(user1.getUsername())));
+
+        verify(controller, times(1)).getByUsername(user1.getUsername());
+    }
+
+
+    @Test
     public void test_delete_user_by_id() throws Exception {
         when(controller.deleteById(1L))
                 .thenReturn("User with id " + 1 + " removed.");
@@ -121,7 +138,6 @@ public class ControllerTest {
                         .contentType(APPLICATION_JSON)
                         .param("username", "arash"))
                         .andExpect(status().isOk())
-                        .andExpect(status().isOk())
                         .andReturn();
 
         String result = requestResult.getResponse().getContentAsString();
@@ -131,8 +147,41 @@ public class ControllerTest {
 
     @Test
     public void add_user() throws Exception {
-        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
-        User user2 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("SamMJ");
+        user.setOld_password("0123");
+        user.setNew_password("0124");
+        user.setFirst_name("Sam");
+        user.setLast_name("Johns");
+
+        when(controller.save(any(UserPostDto.class))).thenReturn(user);
+        User userUnderTest = controller.save(user1);
+
+        MvcResult mvcResult =
+                mvc.perform(post("/api/v1/save")
+                        .contentType(APPLICATION_JSON)
+                        .content(mapToJson(user)))
+                        .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+
+        assertThat(userUnderTest.getId()).isEqualTo(1L);
+        assertThat(userUnderTest.getUsername()).isEqualTo("SamMJ");
+        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
+        assertThat(userUnderTest.getNew_password()).isEqualTo("0124");
+        assertThat(userUnderTest.getFirst_name()).isEqualTo("Sam");
+        assertThat(userUnderTest.getLast_name()).isEqualTo("Johns");
+        assertEquals(200, status);
+
+
+    }
+
+    private String mapToJson(Object obj) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(obj);
     }
 
 }
