@@ -192,12 +192,12 @@ public class ControllerTest {
         UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "Sam", "Johns");
         User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
-        when(controller.updatePassword(any(UserPostDto.class), eq(1L))).thenReturn(user);
-        User userUnderTest = controller.updatePassword(user1, user1.getId());
+        when(controller.updatePassword(any(UserPostDto.class), eq(1L),eq("0123"))).thenReturn(user);
+        User userUnderTest = controller.updatePassword(user1, user1.getId(),"0123");
 
 
         MvcResult mvcResult =
-                mvc.perform(put("/api/v1/updatePassword/?id=" + user1.getId())
+                mvc.perform(put("/api/v1/updatePassword/?id=" + user1.getId()+"&password="+user1.getPassword())
                         .contentType(APPLICATION_JSON)
                         .content(mapToJson(user)))
                         .andReturn();

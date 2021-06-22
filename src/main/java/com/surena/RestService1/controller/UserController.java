@@ -36,9 +36,11 @@ public class UserController {
 
     @RequestMapping(path = "/updatePassword", params = "id", method = RequestMethod.PUT)
     public User updatePassword(@Valid @RequestBody UserPostDto userPostDto,
-                               @RequestParam("id") Long id) {
+                               @RequestParam("id") Long id,
+                               @RequestParam("password") String password
+    ) {
 
-        return service.updatePassword(mapstructMapper.userPostDtoToUser(userPostDto), id);
+        return service.updatePassword(mapstructMapper.userPostDtoToUser(userPostDto), id,password);
     }
 
     @GetMapping

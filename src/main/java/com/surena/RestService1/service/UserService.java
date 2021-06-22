@@ -47,10 +47,10 @@ public class UserService {
 
     }
 
-    public User updatePassword(User user, Long id) {
+    public User updatePassword(User user, Long id,String password) {
         User updatedUser = repository.getById(id);
         if (user.getPassword().equals(updatedUser.getPassword())) {
-            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            updatedUser.setPassword(passwordEncoder.encode(password));
             return repository.save(updatedUser);
         } else
             throw new ApiRequestException("Invalid password!");

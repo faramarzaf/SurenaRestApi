@@ -138,7 +138,7 @@ public class UserServiceTest {
         User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
         when(userRepository.getById(any())).thenReturn(user);
-        when(userService.updatePassword(user, 1L)).thenReturn(user);
+        when(userService.updatePassword(user, 1L,"0123")).thenReturn(user);
 
 
         user.setPassword("0123");
