@@ -193,7 +193,7 @@ public class ControllerTest {
 
     @Test
     public void update_password() throws Exception {
-        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", null, "Sam", "Johns");
         User user = new User(1L,"SamMJ","0123","0125","Sam","Johns");
 
         when(controller.updatePassword(any(UserPostDto.class),eq(1L))).thenReturn(user);

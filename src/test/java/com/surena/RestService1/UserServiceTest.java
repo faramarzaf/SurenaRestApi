@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.*;
 
 @DataJpaTest
 @SpringBootTest
+@Transactional
 public class UserServiceTest {
 
 
@@ -46,10 +48,9 @@ public class UserServiceTest {
 
     @Before
     public void init() {
-        userService = new UserService();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -119,43 +120,43 @@ public class UserServiceTest {
 
     @Test
     public void update_user() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
-        when(userRepository.save(any(User.class))).thenReturn((user1));
 
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("SamMJ");
-        user.setNew_password("0124");
-        user.setOld_password("0123");
-        user.setFirst_name("Sam00");
-        user.setLast_name("Johns00");
+        User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        when(userRepository.save(user)).thenReturn(user);
 
-        userRepository.save(user); //TODO check
+        User userUnderTest = userRepository.findUserById(1L);
 
-        assertThat(user.getFirst_name()).isEqualTo("Sam00");
-        assertThat(user.getLast_name()).isEqualTo("Johns00");
+        userUnderTest.setId(1L);
+        userUnderTest.setUsername("SamMJ");
+        userUnderTest.setOld_password("0123");
+        userUnderTest.setNew_password("0123");
+        userUnderTest.setFirst_name("Sam00");
+        userUnderTest.setLast_name("Johns00");
+
+        User userUnderTest2 = userService.update(userUnderTest, 1L);
+
+
     }
 
     @Test
-    public void update_password() { //TODO fail
-/*        when(userRepository.save(any(User.class))).thenReturn((
-                new User(1L, "SamMJ",
-                        passwordEncoder.encode("0123"),
-                        null,
-                        "Sam",
-                        "Johns")));
+    public void update_password() {
+        User user = new User(1L, "SamMJ", passwordEncoder.encode("0123"), null, "Sam", "Johns");
 
-        User user = new User(1L,
+        when(userRepository.save(any(User.class))).thenReturn((user));
+
+        User user2 = new User(1L,
                 "SamMJ",
                 passwordEncoder.encode("0123"),
                 passwordEncoder.encode("0024"),
                 "Sam",
                 "Johns");
 
-        userService.updatePassword(user);
+        userService.updatePassword(user2, 1L);
 
-        assertThat(user.getNew_password()).isEqualTo(passwordEncoder.encode("0024"));
-        assertThat(user.getOld_password()).isEqualTo(passwordEncoder.encode("0024"));*/
+        assertThat(user2.getNew_password()).isEqualTo(passwordEncoder.encode("0024"));
+        assertThat(user2.getOld_password()).isEqualTo(passwordEncoder.encode("0024"));
+
+
     }
 
     @Test
