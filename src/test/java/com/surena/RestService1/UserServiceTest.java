@@ -120,42 +120,31 @@ public class UserServiceTest {
 
     @Test
     public void update_user() {
-
         User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
-        when(userRepository.getById(any())).thenReturn(user);
 
-        User userUnderTest = userRepository.getById(1L);
+        when(userRepository.getById(any())).thenReturn(user);
         when(userService.update(user,1L)).thenReturn(user);
 
-        userUnderTest.setId(1L);
-        userUnderTest.setUsername("SamMJ");
-        userUnderTest.setOld_password("0123");
-        userUnderTest.setNew_password("0123");
-        userUnderTest.setFirst_name("Sam00");
-        userUnderTest.setLast_name("Johns00");
+        user.setFirst_name("Sam00");
+        user.setLast_name("Johns00");
 
-        assertEquals(1L, userUnderTest.getId());
-        assertEquals("SamMJ", userUnderTest.getUsername());
-        assertEquals("0123", userUnderTest.getOld_password());
-        assertEquals("0123", userUnderTest.getNew_password());
-        assertEquals("Sam00", userUnderTest.getFirst_name());
-        assertEquals("Johns00", userUnderTest.getLast_name());
+        assertEquals("Sam00", user.getFirst_name());
+        assertEquals("Johns00", user.getLast_name());
 
     }
 
     @Test
     public void update_password() {
         User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
-        when(userRepository.getById(any())).thenReturn(user);
 
-        User userUnderTest = userRepository.getById(1L);
+        when(userRepository.getById(any())).thenReturn(user);
         when(userService.updatePassword(user,1L)).thenReturn(user);
 
-        userUnderTest.setNew_password("0125");
-        userUnderTest.setOld_password("0123");
+        user.setNew_password("0125");
+        user.setOld_password("0123");
 
-        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
-        assertThat(userUnderTest.getNew_password()).isEqualTo("0125");
+        assertThat(user.getOld_password()).isEqualTo("0123");
+        assertThat(user.getNew_password()).isEqualTo("0125");
 
     }
 
