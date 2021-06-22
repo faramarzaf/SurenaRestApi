@@ -3,6 +3,7 @@ package com.surena.RestService1.dto;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
+
 public class UserPostDto {
 
     private Long id;
@@ -11,9 +12,7 @@ public class UserPostDto {
     private String username;
 
     @NotEmpty
-    private String old_password;
-
-    private String new_password;
+    private String password;
 
     private String first_name;
 
@@ -27,11 +26,10 @@ public class UserPostDto {
     public UserPostDto() {
     }
 
-    public UserPostDto(Long id, String username, String old_password, String new_password, String first_name, String last_name) {
+    public UserPostDto(Long id, String username, String password, String first_name, String last_name) {
         this.id = id;
         this.username = username;
-        this.old_password = old_password;
-        this.new_password = new_password;
+        this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
     }
@@ -52,20 +50,12 @@ public class UserPostDto {
         this.username = username;
     }
 
-    public String getOld_password() {
-        return old_password;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOld_password(String old_password) {
-        this.old_password = old_password;
-    }
-
-    public String getNew_password() {
-        return new_password;
-    }
-
-    public void setNew_password(String new_password) {
-        this.new_password = new_password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirst_name() {

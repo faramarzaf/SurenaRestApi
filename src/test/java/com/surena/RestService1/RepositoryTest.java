@@ -35,7 +35,7 @@ public class RepositoryTest {
 
     @Test
     public void save_user() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         repository.save(user1);
         User user2 = repository.findTopByUsername("SamMJ");
         assertNotNull(user1);
@@ -46,14 +46,14 @@ public class RepositoryTest {
 
     @Test
     public void get_all_user() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         repository.save(user1);
         assertNotNull(repository.findAll());
     }
 
     @Test
     public void get_user_by_username() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         repository.save(user1);
         User user2 = repository.findTopByUsername("SamMJ");
         assertNotNull(user1);
@@ -63,7 +63,7 @@ public class RepositoryTest {
 
     @Test
     public void get_user_by_id() {
-        User user1 = new User(1L, "Sara", "0123", "0124", "Sara", "Johns");
+        User user1 = new User(1L, "Sara", "0123", "Sara", "Johns");
         repository.save(user1);
         User user2 = repository.getById(user1.getId());
         assertNotNull(user1);
@@ -72,7 +72,7 @@ public class RepositoryTest {
 
     @Test
     public void delete_user() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         repository.save(user1);
         repository.delete(user1);
         assertNull(repository.findUserById(1L));
@@ -80,7 +80,7 @@ public class RepositoryTest {
 
     @Test
     public void delete_by_id() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         User user2 = repository.save(user1);
         repository.deleteUserById(user2.getId());
         assertNull(repository.findUserById(1L));
@@ -88,7 +88,7 @@ public class RepositoryTest {
 
     @Test
     public void delete_by_username() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         User user2 = repository.save(user1);
         repository.deleteByUsername(user2.getUsername());
         assertNull(repository.findByUsername(user2.getUsername()));
@@ -96,7 +96,7 @@ public class RepositoryTest {
 
     @Test
     public void exist_by_username() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         repository.save(user1);
         Boolean exists = repository.existsUserByUsername(user1.getUsername());
         assertThat(exists).isTrue();

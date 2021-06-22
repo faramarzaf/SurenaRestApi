@@ -20,9 +20,7 @@ public class User {
     private String username;
 
     @NotEmpty(message = "Password may not be empty")
-    private String old_password;
-
-    private String new_password;
+    private String password;
 
     private String first_name;
 
@@ -37,25 +35,24 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String old_password, String new_password, String first_name, String last_name, LocalDateTime create_date, LocalDateTime modified_date) {
+    public User(Long id, String username, String password, String first_name, String last_name, LocalDateTime create_date, LocalDateTime modified_date) {
         this.id = id;
         this.username = username;
-        this.old_password = old_password;
-        this.new_password = new_password;
+        this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
         this.create_date = create_date;
         this.modified_date = modified_date;
     }
 
-    public User(Long id, String username, String old_password, String new_password, String first_name, String last_name) {
+    public User(Long id, String username, String password, String first_name, String last_name) {
         this.id = id;
         this.username = username;
-        this.old_password = old_password;
-        this.new_password = new_password;
+        this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
     }
+
 
     public Long getId() {
         return id;
@@ -73,20 +70,12 @@ public class User {
         this.username = username;
     }
 
-    public String getOld_password() {
-        return old_password;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOld_password(String password) {
-        this.old_password = password;
-    }
-
-    public String getNew_password() {
-        return new_password;
-    }
-
-    public void setNew_password(String new_password) {
-        this.new_password = new_password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirst_name() {
@@ -125,7 +114,6 @@ public class User {
     /**
      * @Override equals for save_user method in UserServiceTest class.
      */
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,8 +123,7 @@ public class User {
 
         if (!Objects.equals(id, user.id)) return false;
         if (!Objects.equals(username, user.username)) return false;
-        if (!Objects.equals(old_password, user.old_password)) return false;
-        if (!Objects.equals(new_password, user.new_password)) return false;
+        if (!Objects.equals(password, user.password)) return false;
         if (!Objects.equals(first_name, user.first_name)) return false;
         if (!Objects.equals(last_name, user.last_name)) return false;
         if (!Objects.equals(create_date, user.create_date)) return false;

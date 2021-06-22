@@ -7,10 +7,8 @@ import com.surena.RestService1.controller.UserController;
 import com.surena.RestService1.dto.UserGetDto;
 import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.model.User;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -45,9 +43,9 @@ public class ControllerTest {
 
     @Test
     public void get_all_users() throws Exception {
-        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
-        UserGetDto user2 = new UserGetDto(2L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
-        UserGetDto user3 = new UserGetDto(3L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
+        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "Sam00", "Johns00");
+        UserGetDto user2 = new UserGetDto(2L, "SamMJ", "0123", "Sam00", "Johns00");
+        UserGetDto user3 = new UserGetDto(3L, "SamMJ", "0123", "Sam00", "Johns00");
 
         List<UserGetDto> allArrivals = new ArrayList<>();
 
@@ -71,7 +69,7 @@ public class ControllerTest {
 
     @Test
     public void get_user_by_id() throws Exception {
-        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
+        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
         given(controller.getById(user1.getId())).willReturn(user1);
 
@@ -87,7 +85,7 @@ public class ControllerTest {
 
     @Test
     public void get_user_by_username() throws Exception {
-        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
+        UserGetDto user1 = new UserGetDto(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
         given(controller.getByUsername(user1.getUsername())).willReturn(user1);
 
@@ -136,9 +134,9 @@ public class ControllerTest {
 
     @Test
     public void add_user() throws Exception {
-        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "Sam", "Johns");
 
-        User user = new User(1L,"SamMJ","0123","0124","Sam","Johns");
+        User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
         when(controller.save(any(UserPostDto.class))).thenReturn(user);
         User userUnderTest = controller.save(user1);
@@ -153,8 +151,7 @@ public class ControllerTest {
 
         assertThat(userUnderTest.getId()).isEqualTo(1L);
         assertThat(userUnderTest.getUsername()).isEqualTo("SamMJ");
-        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
-        assertThat(userUnderTest.getNew_password()).isEqualTo("0124");
+        assertThat(userUnderTest.getPassword()).isEqualTo("0123");
         assertThat(userUnderTest.getFirst_name()).isEqualTo("Sam");
         assertThat(userUnderTest.getLast_name()).isEqualTo("Johns");
         assertEquals(200, status);
@@ -164,15 +161,15 @@ public class ControllerTest {
 
     @Test
     public void update_user() throws Exception {
-        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
-        User user = new User(1L,"SamMJ","0123","0124","Sam00","Johns00");
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "Sam", "Johns");
+        User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
-        when(controller.update(any(UserPostDto.class),eq(1L))).thenReturn(user);
-        User userUnderTest = controller.update(user1,user1.getId());
+        when(controller.update(any(UserPostDto.class), eq(1L))).thenReturn(user);
+        User userUnderTest = controller.update(user1, user1.getId());
 
 
         MvcResult mvcResult =
-                mvc.perform(put("/api/v1/?id="+user1.getId())
+                mvc.perform(put("/api/v1/?id=" + user1.getId())
                         .contentType(APPLICATION_JSON)
                         .content(mapToJson(user)))
                         .andReturn();
@@ -181,8 +178,7 @@ public class ControllerTest {
 
         assertThat(userUnderTest.getId()).isEqualTo(1L);
         assertThat(userUnderTest.getUsername()).isEqualTo("SamMJ");
-        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
-        assertThat(userUnderTest.getNew_password()).isEqualTo("0124");
+        assertThat(userUnderTest.getPassword()).isEqualTo("0123");
         assertThat(userUnderTest.getFirst_name()).isEqualTo("Sam00");
         assertThat(userUnderTest.getLast_name()).isEqualTo("Johns00");
 
@@ -193,15 +189,15 @@ public class ControllerTest {
 
     @Test
     public void update_password() throws Exception {
-        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", null, "Sam", "Johns");
-        User user = new User(1L,"SamMJ","0123","0125","Sam","Johns");
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "Sam", "Johns");
+        User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
-        when(controller.updatePassword(any(UserPostDto.class),eq(1L))).thenReturn(user);
-        User userUnderTest = controller.updatePassword(user1,user1.getId());
+        when(controller.updatePassword(any(UserPostDto.class), eq(1L))).thenReturn(user);
+        User userUnderTest = controller.updatePassword(user1, user1.getId());
 
 
         MvcResult mvcResult =
-                mvc.perform(put("/api/v1/updatePassword/?id="+user1.getId())
+                mvc.perform(put("/api/v1/updatePassword/?id=" + user1.getId())
                         .contentType(APPLICATION_JSON)
                         .content(mapToJson(user)))
                         .andReturn();
@@ -210,8 +206,7 @@ public class ControllerTest {
 
         assertThat(userUnderTest.getId()).isEqualTo(1L);
         assertThat(userUnderTest.getUsername()).isEqualTo("SamMJ");
-        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
-        assertThat(userUnderTest.getNew_password()).isEqualTo("0125");
+        assertThat(userUnderTest.getPassword()).isEqualTo("0123");
         assertThat(userUnderTest.getFirst_name()).isEqualTo("Sam");
         assertThat(userUnderTest.getLast_name()).isEqualTo("Johns");
 

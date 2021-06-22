@@ -26,11 +26,10 @@ public class UserService {
             throw new ApiRequestException("Username has already taken!");
         else {
             User user1 = new User();
-
-            String encodedPassword = passwordEncoder.encode(user.getOld_password());
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
 
             user1.setUsername(user.getUsername());
-            user1.setOld_password(encodedPassword);
+            user1.setPassword(encodedPassword);
             user1.setFirst_name(user.getFirst_name());
             user1.setLast_name(user.getLast_name());
             user1.setCreate_date(user.getCreate_date());
@@ -50,9 +49,8 @@ public class UserService {
 
     public User updatePassword(User user, Long id) {
         User updatedUser = repository.getById(id);
-        if (user.getOld_password().equals(updatedUser.getOld_password())) {
-            updatedUser.setNew_password(passwordEncoder.encode(user.getNew_password()));
-            updatedUser.setOld_password(passwordEncoder.encode(user.getNew_password()));
+        if (user.getPassword().equals(updatedUser.getPassword())) {
+            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
             return repository.save(updatedUser);
         } else
             throw new ApiRequestException("Invalid password!");

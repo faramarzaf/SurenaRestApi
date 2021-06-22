@@ -60,7 +60,7 @@ public class UserServiceTest {
         String encodedPassword = passwordEncoder.encode("0123");
 
         user.setUsername("SamMJ");
-        user.setOld_password(encodedPassword);
+        user.setPassword(encodedPassword);
         user.setFirst_name("Sam");
         user.setLast_name("Johns");
 
@@ -71,7 +71,7 @@ public class UserServiceTest {
 
     @Test
     public void save_invalid_user() {
-        User user = new User(1L, "", "", null, "Sam00", "Johns00");
+        User user = new User(1L, "", "", "Sam00", "Johns00");
         userService.save(user);
         verify(userRepository, never()).save(user);
 
@@ -83,7 +83,7 @@ public class UserServiceTest {
 
     @Test
     public void throw_exception_when_username_taken() {
-        User user = new User(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
+        User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
         given(userRepository.existsUserByUsername(user.getUsername())).willReturn(true);  // we simulate that username is exists.
 
@@ -96,7 +96,7 @@ public class UserServiceTest {
 
     @Test
     public void throw_exception_when_username_not_exists() {
-        User user = new User(1L, "SamMJ", "0123", "0124", "Sam00", "Johns00");
+        User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
         given(userRepository.existsUserByUsername(user.getUsername())).willReturn(false);
 
@@ -109,7 +109,7 @@ public class UserServiceTest {
     @Test
     public void throw_exception_when_user_with_id_not_exists() {
         when(userRepository.findUserById(2L)).thenReturn((
-                new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns"))
+                new User(1L, "SamMJ", "0123", "Sam", "Johns"))
         );
         User user = userService.getById(2L);
 
@@ -120,10 +120,10 @@ public class UserServiceTest {
 
     @Test
     public void update_user() {
-        User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
         when(userRepository.getById(any())).thenReturn(user);
-        when(userService.update(user,1L)).thenReturn(user);
+        when(userService.update(user, 1L)).thenReturn(user);
 
         user.setFirst_name("Sam00");
         user.setLast_name("Johns00");
@@ -135,31 +135,30 @@ public class UserServiceTest {
 
     @Test
     public void update_password() {
-        User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
         when(userRepository.getById(any())).thenReturn(user);
-        when(userService.updatePassword(user,1L)).thenReturn(user);
+        when(userService.updatePassword(user, 1L)).thenReturn(user);
 
-        user.setNew_password("0125");
-        user.setOld_password("0123");
 
-        assertThat(user.getOld_password()).isEqualTo("0123");
-        assertThat(user.getNew_password()).isEqualTo("0125");
+        user.setPassword("0123");
+
+        assertThat(user.getPassword()).isEqualTo("0123");
+
 
     }
 
     @Test
     public void get_user_by_id() {
         when(userRepository.findUserById(1L)).thenReturn((
-                new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns"))
+                new User(1L, "SamMJ", "0123", "Sam", "Johns"))
         );
 
         User user = userService.getById(1L);
 
         assertEquals(1L, user.getId());
         assertEquals("SamMJ", user.getUsername());
-        assertEquals("0123", user.getOld_password());
-        assertEquals("0124", user.getNew_password());
+        assertEquals("0123", user.getPassword());
         assertEquals("Sam", user.getFirst_name());
         assertEquals("Johns", user.getLast_name());
 
@@ -168,14 +167,13 @@ public class UserServiceTest {
     @Test
     public void get_user_by_username() {
         when(userRepository.findByUsername("SamMJ"))
-                .thenReturn((new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns")));
+                .thenReturn((new User(1L, "SamMJ", "0123", "Sam", "Johns")));
 
         User user = userService.getByUsername("SamMJ");
 
         assertEquals(1L, user.getId());
         assertEquals("SamMJ", user.getUsername());
-        assertEquals("0123", user.getOld_password());
-        assertEquals("0124", user.getNew_password());
+        assertEquals("0123", user.getPassword());
         assertEquals("Sam", user.getFirst_name());
         assertEquals("Johns", user.getLast_name());
     }
@@ -184,13 +182,13 @@ public class UserServiceTest {
     public void find_all_users() {
 
         List<User> list = new ArrayList<>();
-        User user1 = new User(1L, "SamMJ", "0123", "0124",
+        User user1 = new User(1L, "SamMJ", "0123",
                 "Sam", "Johns", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
-        User user2 = new User(1L, "JohnWoo", "2525", "2524",
+        User user2 = new User(1L, "JohnWoo", "2525",
                 "John", "Woods", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
-        User user3 = new User(1L, "SamuelM", "0141", "0142",
+        User user3 = new User(1L, "SamuelM", "0141",
                 "Samuel", "Mit", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
 
@@ -209,7 +207,7 @@ public class UserServiceTest {
 
     @Test
     public void delete_user_by_username() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         userRepository.deleteByUsername(user1.getUsername());
         User deletedUser = userRepository.findByUsername("SamMJ");
         assertThat(deletedUser).isNull();
@@ -218,7 +216,7 @@ public class UserServiceTest {
 
     @Test
     public void delete_user_by_id() {
-        User user1 = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         userRepository.deleteUserById(user1.getId());
         User deletedUser = userRepository.findUserById(1L);
         assertThat(deletedUser).isNull();
