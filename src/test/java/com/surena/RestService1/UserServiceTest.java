@@ -122,9 +122,10 @@ public class UserServiceTest {
     public void update_user() {
 
         User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
-        when(userRepository.save(user)).thenReturn(user);
+        when(userRepository.getById(any())).thenReturn(user);
 
-        User userUnderTest = userRepository.findUserById(1L);
+        User userUnderTest = userRepository.getById(1L);
+        when(userService.update(user,1L)).thenReturn(user);
 
         userUnderTest.setId(1L);
         userUnderTest.setUsername("SamMJ");
@@ -133,29 +134,28 @@ public class UserServiceTest {
         userUnderTest.setFirst_name("Sam00");
         userUnderTest.setLast_name("Johns00");
 
-        User userUnderTest2 = userService.update(userUnderTest, 1L);
-
+        assertEquals(1L, userUnderTest.getId());
+        assertEquals("SamMJ", userUnderTest.getUsername());
+        assertEquals("0123", userUnderTest.getOld_password());
+        assertEquals("0123", userUnderTest.getNew_password());
+        assertEquals("Sam00", userUnderTest.getFirst_name());
+        assertEquals("Johns00", userUnderTest.getLast_name());
 
     }
 
     @Test
     public void update_password() {
-        User user = new User(1L, "SamMJ", passwordEncoder.encode("0123"), null, "Sam", "Johns");
+        User user = new User(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        when(userRepository.getById(any())).thenReturn(user);
 
-        when(userRepository.save(any(User.class))).thenReturn((user));
+        User userUnderTest = userRepository.getById(1L);
+        when(userService.updatePassword(user,1L)).thenReturn(user);
 
-        User user2 = new User(1L,
-                "SamMJ",
-                passwordEncoder.encode("0123"),
-                passwordEncoder.encode("0024"),
-                "Sam",
-                "Johns");
+        userUnderTest.setNew_password("0125");
+        userUnderTest.setOld_password("0123");
 
-        userService.updatePassword(user2, 1L);
-
-        assertThat(user2.getNew_password()).isEqualTo(passwordEncoder.encode("0024"));
-        assertThat(user2.getOld_password()).isEqualTo(passwordEncoder.encode("0024"));
-
+        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
+        assertThat(userUnderTest.getNew_password()).isEqualTo("0125");
 
     }
 
