@@ -191,6 +191,34 @@ public class ControllerTest {
     }
 
 
+    @Test
+    public void update_password() throws Exception {
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user = new User(1L,"SamMJ","0123","0125","Sam","Johns");
+
+        when(controller.updatePassword(any(UserPostDto.class),eq(1L))).thenReturn(user);
+        User userUnderTest = controller.updatePassword(user1,user1.getId());
+
+
+        MvcResult mvcResult =
+                mvc.perform(put("/api/v1/updatePassword/?id="+user1.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapToJson(user)))
+                        .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+
+        assertThat(userUnderTest.getId()).isEqualTo(1L);
+        assertThat(userUnderTest.getUsername()).isEqualTo("SamMJ");
+        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
+        assertThat(userUnderTest.getNew_password()).isEqualTo("0125");
+        assertThat(userUnderTest.getFirst_name()).isEqualTo("Sam");
+        assertThat(userUnderTest.getLast_name()).isEqualTo("Johns");
+
+        assertEquals(200, status);
+
+    }
+
     private String mapToJson(Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
