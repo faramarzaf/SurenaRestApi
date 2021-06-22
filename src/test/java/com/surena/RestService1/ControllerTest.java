@@ -7,8 +7,10 @@ import com.surena.RestService1.controller.UserController;
 import com.surena.RestService1.dto.UserGetDto;
 import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.model.User;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -99,7 +101,7 @@ public class ControllerTest {
 
 
     @Test
-    public void test_delete_user_by_id() throws Exception {
+    public void delete_user_by_id() throws Exception {
         when(controller.deleteById(1L))
                 .thenReturn("User with id " + 1 + " removed.");
 
@@ -116,7 +118,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void test_delete_user_by_username() throws Exception {
+    public void delete_user_by_username() throws Exception {
         when(controller.deleteByUsername("arash"))
                 .thenReturn("User with username arash removed.");
 
@@ -136,13 +138,7 @@ public class ControllerTest {
     public void add_user() throws Exception {
         UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
 
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("SamMJ");
-        user.setOld_password("0123");
-        user.setNew_password("0124");
-        user.setFirst_name("Sam");
-        user.setLast_name("Johns");
+        User user = new User(1L,"SamMJ","0123","0124","Sam","Johns");
 
         when(controller.save(any(UserPostDto.class))).thenReturn(user);
         User userUnderTest = controller.save(user1);
@@ -165,6 +161,35 @@ public class ControllerTest {
 
 
     }
+
+    @Test
+    public void update_user() throws Exception {
+        UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "0124", "Sam", "Johns");
+        User user = new User(1L,"SamMJ","0123","0124","Sam00","Johns00");
+
+        when(controller.update(any(UserPostDto.class),eq(1L))).thenReturn(user);
+        User userUnderTest = controller.update(user1,user1.getId());
+
+
+        MvcResult mvcResult =
+                mvc.perform(put("/api/v1/?id="+user1.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapToJson(user)))
+                        .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+
+        assertThat(userUnderTest.getId()).isEqualTo(1L);
+        assertThat(userUnderTest.getUsername()).isEqualTo("SamMJ");
+        assertThat(userUnderTest.getOld_password()).isEqualTo("0123");
+        assertThat(userUnderTest.getNew_password()).isEqualTo("0124");
+        assertThat(userUnderTest.getFirst_name()).isEqualTo("Sam00");
+        assertThat(userUnderTest.getLast_name()).isEqualTo("Johns00");
+
+        assertEquals(200, status);
+
+    }
+
 
     private String mapToJson(Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();

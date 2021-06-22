@@ -27,14 +27,18 @@ public class UserController {
         return service.save(user);
     }
 
-    @PutMapping("/update")
-    public void update(@Valid @RequestBody UserPostDto userPostDto) {
-        service.update(mapstructMapper.userPostDtoToUser(userPostDto));
+    @RequestMapping(params = "id", method = RequestMethod.PUT)
+    public User update(@Valid @RequestBody UserPostDto userPostDto,
+                       @RequestParam("id") Long id) {
+
+        return service.update(mapstructMapper.userPostDtoToUser(userPostDto), id);
     }
 
-    @PutMapping("/updatePassword")
-    public void updatePassword(@Valid @RequestBody UserPostDto userPostDto) {
-        service.updatePassword(mapstructMapper.userPostDtoToUser(userPostDto));
+    @RequestMapping(path = "/updatePassword", params = "id", method = RequestMethod.PUT)
+    public User updatePassword(@Valid @RequestBody UserPostDto userPostDto,
+                               @RequestParam("id") Long id) {
+
+        return service.updatePassword(mapstructMapper.userPostDtoToUser(userPostDto), id);
     }
 
     @GetMapping
