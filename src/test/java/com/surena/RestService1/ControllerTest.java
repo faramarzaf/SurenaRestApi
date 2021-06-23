@@ -197,7 +197,7 @@ public class ControllerTest {
 
 
         MvcResult mvcResult =
-                mvc.perform(put("/api/v1/updatePassword/?id=" + user1.getId()+"&password="+user1.getPassword())
+                mvc.perform(put("/api/v1/updatePassword/?id=" + user1.getId()+"&encodedPassword="+user1.getPassword())
                         .contentType(APPLICATION_JSON)
                         .content(mapToJson(user)))
                         .andReturn();

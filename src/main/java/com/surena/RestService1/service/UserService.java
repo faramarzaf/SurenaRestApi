@@ -6,11 +6,12 @@ import com.surena.RestService1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+//@Transactional(readOnly = true)
 @Transactional
 public class UserService {
 
@@ -21,6 +22,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //
     public User save(User user) {
         if (userExists(user.getUsername()))
             throw new ApiRequestException("Username has already taken!");
@@ -47,10 +49,10 @@ public class UserService {
 
     }
 
-    public User updatePassword(User user, Long id,String password) {
+    public User updatePassword(User user, Long id, String encodedPassword) {
         User updatedUser = repository.getById(id);
-        if (user.getPassword().equals(updatedUser.getPassword())) {
-            updatedUser.setPassword(passwordEncoder.encode(password));
+        if (encodedPassword.equals(updatedUser.getPassword())) {
+            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
             return repository.save(updatedUser);
         } else
             throw new ApiRequestException("Invalid password!");

@@ -19,11 +19,11 @@ public class UserController {
     private UserService service;
 
     @Autowired
-    private MapStructMapper mapstructMapper;
+    private MapStructMapper userMapper;
 
     @PostMapping("/save")
     public User save(@Valid @RequestBody UserPostDto userPostDto) {
-        User user = mapstructMapper.userPostDtoToUser(userPostDto);
+        User user = userMapper.userPostDtoToUser(userPostDto);
         return service.save(user);
     }
 
@@ -31,31 +31,30 @@ public class UserController {
     public User update(@Valid @RequestBody UserPostDto userPostDto,
                        @RequestParam("id") Long id) {
 
-        return service.update(mapstructMapper.userPostDtoToUser(userPostDto), id);
+        return service.update(userMapper.userPostDtoToUser(userPostDto), id);
     }
 
     @RequestMapping(path = "/updatePassword", params = "id", method = RequestMethod.PUT)
     public User updatePassword(@Valid @RequestBody UserPostDto userPostDto,
                                @RequestParam("id") Long id,
-                               @RequestParam("password") String password
-    ) {
+                               @RequestParam("encodedPassword") String encodedPassword) {
 
-        return service.updatePassword(mapstructMapper.userPostDtoToUser(userPostDto), id,password);
+        return service.updatePassword(userMapper.userPostDtoToUser(userPostDto), id, encodedPassword);
     }
 
     @GetMapping
     public List<UserGetDto> getAllUsers() {
-        return mapstructMapper.userToUserGetDto(service.getAllUsers());
+        return userMapper.userToUserGetDto(service.getAllUsers());
     }
 
     @RequestMapping(params = "username", method = RequestMethod.GET)
     public UserGetDto getByUsername(@RequestParam("username") String username) {
-        return mapstructMapper.userToUserGetDto(service.getByUsername(username));
+        return userMapper.userToUserGetDto(service.getByUsername(username));
     }
 
     @RequestMapping(params = "id", method = RequestMethod.GET)
     public UserGetDto getById(@RequestParam("id") Long id) {
-        return mapstructMapper.userToUserGetDto(service.getById(id));
+        return userMapper.userToUserGetDto(service.getById(id));
     }
 
     @RequestMapping(params = "id", method = RequestMethod.DELETE)
