@@ -121,7 +121,7 @@ public class ControllerTest {
                 .thenReturn("User with username arash removed.");
 
         MvcResult requestResult =
-                mvc.perform(delete("/api/v1/")
+                mvc.perform(delete("/api/v1/deleteByUsername")
                         .contentType(APPLICATION_JSON)
                         .param("username", "arash"))
                         .andExpect(status().isOk())

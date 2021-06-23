@@ -62,7 +62,7 @@ public class UserController {
         return service.deleteById(id);
     }
 
-    @RequestMapping(params = "username", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteByUsername",params = "username", method = RequestMethod.DELETE)
     public String deleteByUsername(@RequestParam("username") String username) {
         return service.deleteByUsername(username);
     }

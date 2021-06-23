@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-//@Transactional(readOnly = true)
-@Transactional
 public class UserService {
 
 
@@ -22,7 +20,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //
+    @Transactional
     public User save(User user) {
         if (userExists(user.getUsername()))
             throw new ApiRequestException("Username has already taken!");
@@ -41,6 +39,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public User update(User user, Long id) {
         User userFromDb = repository.getById(id);
         userFromDb.setFirst_name(user.getFirst_name());
@@ -49,6 +48,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public User updatePassword(User user, Long id, String encodedPassword) {
         User updatedUser = repository.getById(id);
         if (encodedPassword.equals(updatedUser.getPassword())) {
@@ -79,12 +79,14 @@ public class UserService {
     }
 
 
+    @Transactional
     public String deleteById(Long id) {
         repository.deleteById(id);
         return "User with id " + id + " removed.";
     }
 
 
+    @Transactional
     public String deleteByUsername(String username) {
         repository.deleteByUsername(username);
         return "User with username " + username + " removed.";
