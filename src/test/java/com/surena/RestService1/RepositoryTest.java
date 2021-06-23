@@ -2,12 +2,20 @@ package com.surena.RestService1;
 
 import com.surena.RestService1.model.User;
 import com.surena.RestService1.repository.UserRepository;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,8 +36,13 @@ public class RepositoryTest {
     @Autowired
     private UserRepository repository;
 
-    @AfterEach
-    void tear_down() {
+    @After
+    public void tear_down() {
+        repository.deleteAll();
+    }
+
+    @Before
+    public void tear_down_bef() {
         repository.deleteAll();
     }
 
