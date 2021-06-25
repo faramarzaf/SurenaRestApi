@@ -9,7 +9,6 @@ import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,7 +38,7 @@ public class ControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @InjectMocks
+    @MockBean
     private UserController controller;
 
     @Test
@@ -193,14 +192,14 @@ public class ControllerTest {
         UserPostDto user1 = new UserPostDto(1L, "SamMJ", "0123", "Sam", "Johns");
         User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
-        when(controller.updatePassword(any(UserPostDto.class), eq(1L),eq("0123"))).thenReturn(user);
-        User userUnderTest = controller.updatePassword(user1, user1.getId(),"0123");
+        when(controller.updatePassword(any(UserPostDto.class), eq(1L), eq("0123"))).thenReturn(user);
+        User userUnderTest = controller.updatePassword(user1, user1.getId(), "0123");
 
 
         MvcResult mvcResult =
                 mvc.perform(put("/api/v1/updatePassword/?id=" + user1.getId())
                         .contentType(APPLICATION_JSON)
-                        .header("password",user1.getPassword())
+                        .header("password", user1.getPassword())
                         .content(mapToJson(user)))
                         .andReturn();
 

@@ -6,11 +6,11 @@ import com.surena.RestService1.repository.UserRepository;
 import com.surena.RestService1.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,11 +28,11 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
 
@@ -51,7 +51,6 @@ public class UserServiceTest {
     public void init() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -89,7 +88,7 @@ public class UserServiceTest {
     public void throw_exception_when_username_taken() {
         User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
-        given(userRepository.existsUserByUsername(user.getUsername())).willReturn(true);  // we simulate that username is exists.
+        when(userRepository.existsUserByUsername(user.getUsername())).thenReturn(true);  // we simulate that username is exists.
 
         assertThatThrownBy(() -> userService.save(user))
                 .isInstanceOf(ApiRequestException.class)
@@ -103,7 +102,7 @@ public class UserServiceTest {
     public void throw_exception_when_username_not_exists() {
         User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
-        given(userRepository.existsUserByUsername(user.getUsername())).willReturn(false);
+        when(userRepository.existsUserByUsername(user.getUsername())).thenReturn(false);
 
         assertThatThrownBy(() -> userService.getByUsername(user.getUsername()))
                 .isInstanceOf(ApiRequestException.class)
@@ -146,7 +145,7 @@ public class UserServiceTest {
         User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
         when(userRepository.getById(any())).thenReturn(user);
-        when(userService.updatePassword(user, 1L,"0123")).thenReturn(user);
+        when(userService.updatePassword(user, 1L, "0123")).thenReturn(user);
 
 
         user.setPassword("0123");
