@@ -9,6 +9,7 @@ import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,7 +39,7 @@ public class ControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    @InjectMocks
     private UserController controller;
 
     @Test

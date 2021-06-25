@@ -6,14 +6,16 @@ import com.surena.RestService1.repository.UserRepository;
 import com.surena.RestService1.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -29,9 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@DataJpaTest
+@RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 public class UserServiceTest {
 
 
@@ -54,6 +55,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void save_user() {
 
         User user = new User();
@@ -70,6 +72,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void save_invalid_user() {
         User user = new User(1L, "", "", "Sam00", "Johns00");
         userService.save(user);
@@ -82,6 +85,7 @@ public class UserServiceTest {
 
 
     @Test
+    @Transactional
     public void throw_exception_when_username_taken() {
         User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
@@ -95,6 +99,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void throw_exception_when_username_not_exists() {
         User user = new User(1L, "SamMJ", "0123", "Sam00", "Johns00");
 
@@ -107,6 +112,7 @@ public class UserServiceTest {
 
 
     @Test
+    @Transactional
     public void throw_exception_when_user_with_id_not_exists() {
         when(userRepository.findUserById(2L)).thenReturn((
                 new User(1L, "SamMJ", "0123", "Sam", "Johns"))
@@ -119,6 +125,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void update_user() {
         User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
@@ -134,6 +141,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void update_password() {
         User user = new User(1L, "SamMJ", "0123", "Sam", "Johns");
 
@@ -206,6 +214,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Transactional
     public void delete_user_by_username() {
         User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         userRepository.deleteByUsername(user1.getUsername());
@@ -215,6 +224,7 @@ public class UserServiceTest {
 
 
     @Test
+    @Transactional
     public void delete_user_by_id() {
         User user1 = new User(1L, "SamMJ", "0123", "Sam", "Johns");
         userRepository.deleteUserById(user1.getId());
