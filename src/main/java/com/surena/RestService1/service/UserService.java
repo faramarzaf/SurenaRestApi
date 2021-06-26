@@ -2,7 +2,6 @@ package com.surena.RestService1.service;
 
 import com.surena.RestService1.exception.ApiRequestException;
 import com.surena.RestService1.model.User;
-import com.surena.RestService1.repository.AddressRepository;
 import com.surena.RestService1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +16,6 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -69,11 +65,11 @@ public class UserService {
     }
 
     public List<User> getAllByAddressName(String address) {
-        return addressRepository.findByAddresses_streetIgnoreCase(address);
+        return userRepository.findByAddresses_streetIgnoreCase(address);
     }
 
     public List<User> getAllByCompanyName(String companyName) {
-        return addressRepository.findByCompany_nameIgnoreCase(companyName);
+        return userRepository.findByCompany_nameIgnoreCase(companyName);
     }
 
     public User getByUsername(String username) {

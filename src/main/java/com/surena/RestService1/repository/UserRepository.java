@@ -26,4 +26,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findTopByUsername(String username);
 
     boolean existsUserByUsername(String username);
+
+    List<User> findByAddresses_streetIgnoreCase(String address);
+
+    List<User> findByCompany_nameIgnoreCase(String companyName);
 }
