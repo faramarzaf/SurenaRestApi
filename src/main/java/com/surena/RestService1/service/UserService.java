@@ -34,7 +34,8 @@ public class UserService {
             user1.setLast_name(user.getLast_name());
             user1.setCreate_date(user.getCreate_date());
             user1.setModified_date(user.getModified_date());
-
+            user1.setCompany(user.getCompany());
+            user1.setAddresses(user.getAddresses());
             return repository.save(user1);
         }
     }

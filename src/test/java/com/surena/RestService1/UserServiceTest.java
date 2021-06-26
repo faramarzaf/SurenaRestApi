@@ -136,7 +136,6 @@ public class UserServiceTest {
 
         assertEquals("Sam00", user.getFirst_name());
         assertEquals("Johns00", user.getLast_name());
-
     }
 
     @Test
@@ -147,12 +146,9 @@ public class UserServiceTest {
         when(userRepository.getById(any())).thenReturn(user);
         when(userService.updatePassword(user, 1L, "0123")).thenReturn(user);
 
+        user.setPassword("0124");
 
-        user.setPassword("0123");
-
-        assertThat(user.getPassword()).isEqualTo("0123");
-
-
+        assertThat(user.getPassword()).isEqualTo("0124");
     }
 
     @Test
@@ -198,7 +194,6 @@ public class UserServiceTest {
         User user3 = new User(1L, "SamuelM", "0141",
                 "Samuel", "Mit", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
 
-
         list.add(user1);
         list.add(user2);
         list.add(user3);
@@ -209,7 +204,6 @@ public class UserServiceTest {
 
         assertEquals(3, empList.size());
         verify(userRepository, times(1)).findAll();
-
     }
 
     @Test

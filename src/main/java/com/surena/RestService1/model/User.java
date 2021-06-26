@@ -1,12 +1,13 @@
 package com.surena.RestService1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +33,21 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime modified_date;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "uc_id")
+    private Company company;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ua_fid", referencedColumnName = "id")
+    private List<Address> addresses = new ArrayList<>();
+
+/*    @ManyToOne
+    private User managers;
+
+    @OneToMany(mappedBy = "managers")
+    private Set<User> employees = new HashSet<>();*/
+
+
     public User() {
     }
 
@@ -52,6 +68,7 @@ public class User {
         this.first_name = first_name;
         this.last_name = last_name;
     }
+
 
 
     public Long getId() {
@@ -111,6 +128,24 @@ public class User {
     }
 
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+
+
     /**
      * @Override equals for save_user method in UserServiceTest class.
      */
@@ -129,6 +164,5 @@ public class User {
         if (!Objects.equals(create_date, user.create_date)) return false;
         return Objects.equals(modified_date, user.modified_date);
     }
-
 
 }

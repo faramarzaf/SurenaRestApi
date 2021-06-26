@@ -1,8 +1,12 @@
 package com.surena.RestService1.dto;
 
+import com.surena.RestService1.model.Address;
+import com.surena.RestService1.model.Company;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserGetDto {
 
@@ -22,6 +26,10 @@ public class UserGetDto {
 
     private LocalDateTime modified_date;
 
+    private Company company;
+
+    private List<Address> addresses = new ArrayList<>();
+
     public UserGetDto() {
     }
 
@@ -31,6 +39,18 @@ public class UserGetDto {
         this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
+    }
+
+    public UserGetDto(Long id, String username, String password, String first_name, String last_name, LocalDateTime create_date, LocalDateTime modified_date, Company company, List<Address> addresses) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.create_date = create_date;
+        this.modified_date = modified_date;
+        this.company = company;
+        this.addresses = addresses;
     }
 
     public Long getId() {
@@ -87,5 +107,21 @@ public class UserGetDto {
 
     public void setModified_date(LocalDateTime modified_date) {
         this.modified_date = modified_date;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }
