@@ -1,10 +1,9 @@
 package com.surena.RestService1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Address {
@@ -17,29 +16,12 @@ public class Address {
 
     private int number;
 
-    private Long lat;
+    private Double lat;
 
-    private Long lon;
+    private Double lon;
 
     public Address() {
     }
-
-/*    public Address(Long id, String street, int number, Long lat, Long lon, Set<Company> companies) {
-        this.id = id;
-        this.street = street;
-        this.number = number;
-        this.lat = lat;
-        this.lon = lon;
-        this.companies = companies;
-    }
-
-    public Address(String street, int number, Long lat, Long lon, Set<Company> companies) {
-        this.street = street;
-        this.number = number;
-        this.lat = lat;
-        this.lon = lon;
-        this.companies = companies;
-    }*/
 
     public Long getId() {
         return id;
@@ -65,22 +47,21 @@ public class Address {
         this.number = number;
     }
 
-    public Long getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(Long lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public Long getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(Long lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
-
 
 
 }

@@ -6,7 +6,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -39,22 +41,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ua_fid", referencedColumnName = "id")
     private List<Address> addresses = new ArrayList<>();
-
-/*
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="manager")
-    private User manager;
-
-    @OneToMany(mappedBy="manager")
-    private Set<User> employees = new HashSet<>();*/
-
-
-/*    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "uid", referencedColumnName = "id")
-    private User manager;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "manager")
-    private Set<User> employees = new HashSet<>();*/
 
 
     public User() {
@@ -151,22 +137,6 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
-/*
-    public User getManager() {
-        return manager;
-    }
-
-    public void setManager(User managers) {
-        this.manager = managers;
-    }
-
-    public Set<User> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Set<User> employees) {
-        this.employees = employees;
-    }*/
 
     /**
      * @Override equals for save_user method in UserServiceTest class.

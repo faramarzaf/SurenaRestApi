@@ -41,9 +41,6 @@ public class UserService {
             user1.setCompany(user.getCompany());
             user1.setAddresses(user.getAddresses());
 
-           /* user1.setEmployees(user.getEmployees());
-            user1.setManager(user.getManager());*/
-
             return userRepository.save(user1);
         }
     }

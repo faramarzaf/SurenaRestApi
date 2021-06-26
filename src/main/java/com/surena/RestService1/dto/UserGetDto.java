@@ -2,14 +2,11 @@ package com.surena.RestService1.dto;
 
 import com.surena.RestService1.model.Address;
 import com.surena.RestService1.model.Company;
-import com.surena.RestService1.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UserGetDto {
 
@@ -33,9 +30,6 @@ public class UserGetDto {
 
     private List<Address> addresses = new ArrayList<>();
 
-/*    private User manager;
-
-    private Set<User> employees = new HashSet<>();*/
 
     public UserGetDto() {
     }
@@ -48,19 +42,6 @@ public class UserGetDto {
         this.last_name = last_name;
     }
 
-/*    public UserGetDto(Long id, String username, String password, String first_name, String last_name, LocalDateTime create_date, LocalDateTime modified_date, Company company, List<Address> addresses, User manager, Set<User> employees) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.create_date = create_date;
-        this.modified_date = modified_date;
-        this.company = company;
-        this.addresses = addresses;
-        this.manager = manager;
-        this.employees = employees;
-    }*/
 
     public Long getId() {
         return id;
@@ -134,19 +115,4 @@ public class UserGetDto {
         this.addresses = addresses;
     }
 
-/*    public User getManager() {
-        return manager;
-    }
-
-    public void setManager(User manager) {
-        this.manager = manager;
-    }
-
-    public Set<User> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Set<User> employees) {
-        this.employees = employees;
-    }*/
 }

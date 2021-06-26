@@ -3,9 +3,7 @@ package com.surena.RestService1.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,18 +27,6 @@ public class Company {
     public Company() {
     }
 
- /*   public Company(Long id, String name, User user, Set<Address> addresses) {
-        this.id = id;
-        this.name = name;
-        this.user = user;
-        this.addresses = addresses;
-    }
-
-    public Company(String name, User user, Set<Address> addresses) {
-        this.name = name;
-        this.user = user;
-        this.addresses = addresses;
-    }*/
 
     public Long getId() {
         return id;
