@@ -2,6 +2,7 @@ package com.surena.RestService1.service;
 
 import com.surena.RestService1.exception.ApiRequestException;
 import com.surena.RestService1.model.User;
+import com.surena.RestService1.repository.AddressRepository;
 import com.surena.RestService1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +16,10 @@ public class UserService {
 
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,64 +40,76 @@ public class UserService {
             user1.setModified_date(user.getModified_date());
             user1.setCompany(user.getCompany());
             user1.setAddresses(user.getAddresses());
-            return repository.save(user1);
+
+           /* user1.setEmployees(user.getEmployees());
+            user1.setManager(user.getManager());*/
+
+            return userRepository.save(user1);
         }
     }
 
     @Transactional
     public User update(User user, Long id) {
-        User userFromDb = repository.getById(id);
+        User userFromDb = userRepository.getById(id);
         userFromDb.setFirst_name(user.getFirst_name());
         userFromDb.setLast_name(user.getLast_name());
-        return repository.save(userFromDb);
+        return userRepository.save(userFromDb);
 
     }
 
     @Transactional
     public User updatePassword(User user, Long id, String encodedPassword) {
-        User updatedUser = repository.getById(id);
+        User updatedUser = userRepository.getById(id);
         if (encodedPassword.equals(updatedUser.getPassword())) {
             updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            return repository.save(updatedUser);
+            return userRepository.save(updatedUser);
         } else
             throw new ApiRequestException("Invalid password!");
     }
 
     public List<User> getAllUsers() {
-        return repository.findAll();
+        return userRepository.findAll();
+    }
+
+    public List<User> getAllByAddressName(String address) {
+        return addressRepository.findByAddresses_streetIgnoreCase(address);
+    }
+
+    public List<User> getAllByCompanyName(String companyName) {
+        return addressRepository.findByCompany_nameIgnoreCase(companyName);
     }
 
     public User getByUsername(String username) {
-        User userByUsername = repository.findByUsername(username);
+        User userByUsername = userRepository.findByUsername(username);
         if (userByUsername == null)
             throw new ApiRequestException("User with username " + username + " not found!");
         else
-            return repository.findByUsername(username);
+            return userRepository.findByUsername(username);
     }
 
     public User getById(Long id) {
-        User userById = repository.findUserById(id);
+        User userById = userRepository.findUserById(id);
         if (userById == null)
             throw new ApiRequestException("User with id " + id + " not found!");
         else
-            return repository.findUserById(id);
+            return userRepository.findUserById(id);
     }
 
 
     @Transactional
     public String deleteById(Long id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
         return "User with id " + id + " removed.";
     }
 
 
     @Transactional
     public String deleteByUsername(String username) {
-        repository.deleteByUsername(username);
+        userRepository.deleteByUsername(username);
         return "User with username " + username + " removed.";
     }
 
     private boolean userExists(String username) {
-        return repository.existsUserByUsername(username);
+        return userRepository.existsUserByUsername(username);
     }
 }

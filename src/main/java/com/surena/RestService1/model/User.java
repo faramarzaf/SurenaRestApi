@@ -1,6 +1,5 @@
 package com.surena.RestService1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -41,10 +40,20 @@ public class User {
     @JoinColumn(name = "ua_fid", referencedColumnName = "id")
     private List<Address> addresses = new ArrayList<>();
 
-/*    @ManyToOne
-    private User managers;
+/*
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="manager")
+    private User manager;
 
-    @OneToMany(mappedBy = "managers")
+    @OneToMany(mappedBy="manager")
+    private Set<User> employees = new HashSet<>();*/
+
+
+/*    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uid", referencedColumnName = "id")
+    private User manager;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "manager")
     private Set<User> employees = new HashSet<>();*/
 
 
@@ -68,7 +77,6 @@ public class User {
         this.first_name = first_name;
         this.last_name = last_name;
     }
-
 
 
     public Long getId() {
@@ -143,8 +151,22 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+/*
+    public User getManager() {
+        return manager;
+    }
 
+    public void setManager(User managers) {
+        this.manager = managers;
+    }
 
+    public Set<User> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<User> employees) {
+        this.employees = employees;
+    }*/
 
     /**
      * @Override equals for save_user method in UserServiceTest class.

@@ -52,10 +52,24 @@ public class UserController {
         return userMapper.userToUserGetDto(service.getByUsername(username));
     }
 
+    //localhost:8080/api/v1?id=1
     @RequestMapping(params = "id", method = RequestMethod.GET)
     public UserGetDto getById(@RequestParam("id") Long id) {
         return userMapper.userToUserGetDto(service.getById(id));
     }
+
+    //localhost:8080/api/v1/findByAddress?address=street-b
+    @RequestMapping(path = "/findByAddress", method = RequestMethod.GET)
+    public List<UserGetDto> getByAddress(@RequestParam("address") String address) {
+        return userMapper.userToUserGetDto(service.getAllByAddressName(address));
+    }
+
+    //localhost:8080/api/v1/findByCompany?companyName=company-bmw
+    @RequestMapping(path = "/findByCompany", method = RequestMethod.GET)
+    public List<UserGetDto> getByCompany(@RequestParam("companyName") String companyName) {
+        return userMapper.userToUserGetDto(service.getAllByCompanyName(companyName));
+    }
+
 
     @RequestMapping(params = "id", method = RequestMethod.DELETE)
     public String deleteById(@RequestParam("id") Long id) {
