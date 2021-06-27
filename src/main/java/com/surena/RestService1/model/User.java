@@ -42,7 +42,6 @@ public class User {
     @JoinColumn(name = "ua_fid", referencedColumnName = "id")
     private List<Address> addresses = new ArrayList<>();
 
-
     public User() {
     }
 
@@ -137,6 +136,24 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
+
+/*    public User getManager() {
+        return manager;
+    }
+
+    public void setManager(User manager) {
+        this.manager = manager;
+    }
+
+    public Set<User> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<User> employees) {
+        this.employees = employees;
+    }*/
+
 
     /**
      * @Override equals for save_user method in UserServiceTest class.

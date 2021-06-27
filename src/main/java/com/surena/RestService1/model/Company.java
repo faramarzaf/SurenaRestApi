@@ -18,11 +18,8 @@ public class Company {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "company")
     private User user;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ca_fid", referencedColumnName = "id")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "companies")
     private Set<Address> addresses = new HashSet<>();
-
 
     public Company() {
     }
@@ -53,6 +50,7 @@ public class Company {
         this.user = user;
     }
 
+    @JsonIgnore
     public Set<Address> getAddresses() {
         return addresses;
     }

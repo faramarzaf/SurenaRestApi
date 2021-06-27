@@ -1,9 +1,8 @@
 package com.surena.RestService1.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Address {
@@ -19,6 +18,13 @@ public class Address {
     private Double lat;
 
     private Double lon;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "addresses_companies",
+            joinColumns = {@JoinColumn(name = "address_id")},
+            inverseJoinColumns = @JoinColumn(name = "company_id"))
+
+    private Set<Company> companies = new HashSet<>();
 
     public Address() {
     }
@@ -63,5 +69,11 @@ public class Address {
         this.lon = lon;
     }
 
+    public Set<Company> getCompanies() {
+        return companies;
+    }
 
+    public void setCompanies(Set<Company> companies) {
+        this.companies = companies;
+    }
 }
