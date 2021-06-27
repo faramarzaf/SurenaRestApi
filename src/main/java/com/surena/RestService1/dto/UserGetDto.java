@@ -6,10 +6,7 @@ import com.surena.RestService1.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class UserGetDto {
 
@@ -32,11 +29,6 @@ public class UserGetDto {
     private Company company;
 
     private List<Address> addresses = new ArrayList<>();
-
-    /*private Set<User> employees = new HashSet<>();
-
-    private User manager;
-*/
 
     public UserGetDto() {
     }
@@ -122,20 +114,4 @@ public class UserGetDto {
         this.addresses = addresses;
     }
 
-
-   /* public Set<User> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Set<User> employees) {
-        this.employees = employees;
-    }
-
-    public User getManager() {
-        return manager;
-    }
-
-    public void setManager(User manager) {
-        this.manager = manager;
-    }*/
 }
