@@ -1,13 +1,14 @@
 package com.surena.RestService1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -135,7 +136,6 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
-
 
 
     /**

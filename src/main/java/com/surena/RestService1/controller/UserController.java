@@ -37,7 +37,7 @@ public class UserController {
     @RequestMapping(path = "/updatePassword", params = "id", method = RequestMethod.PUT)
     public User updatePassword(@Valid @RequestBody UserPostDto userPostDto,
                                @RequestParam("id") Long id,
-                               @RequestHeader(value="password") String encodedPassword) {
+                               @RequestHeader(value = "password") String encodedPassword) {
 
         return service.updatePassword(userMapper.userPostDtoToUser(userPostDto), id, encodedPassword);
     }
@@ -76,7 +76,7 @@ public class UserController {
         return service.deleteById(id);
     }
 
-    @RequestMapping(value = "/deleteByUsername",params = "username", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteByUsername", params = "username", method = RequestMethod.DELETE)
     public String deleteByUsername(@RequestParam("username") String username) {
         return service.deleteByUsername(username);
     }

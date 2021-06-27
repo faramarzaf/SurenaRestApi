@@ -55,18 +55,6 @@ public class Company {
         this.user = user;
     }
 
-/*
-    @JsonIgnore
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-*/
-
-
     public Set<Address> getCompanyAddresses() {
         return companyAddresses;
     }

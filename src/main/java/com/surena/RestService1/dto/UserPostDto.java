@@ -2,7 +2,6 @@ package com.surena.RestService1.dto;
 
 import com.surena.RestService1.model.Address;
 import com.surena.RestService1.model.Company;
-import com.surena.RestService1.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
