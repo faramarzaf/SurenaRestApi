@@ -20,11 +20,12 @@ public class Company {
     private User user;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "companies")
-    @JsonIgnoreProperties(value = {"companies"})
-    private Set<Address> userAddresses = new HashSet<>();
+   // @JsonIgnoreProperties(value = {"companies"})
+    private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "ca_fid", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"companies"})
     private Set<Address> companyAddresses = new HashSet<>();
 
 
@@ -58,12 +59,12 @@ public class Company {
     }
 
     @JsonIgnore
-    public Set<Address> getUserAddresses() {
-        return userAddresses;
+    public Set<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setUserAddresses(Set<Address> addresses) {
-        this.userAddresses = addresses;
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 
 

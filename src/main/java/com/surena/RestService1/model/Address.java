@@ -25,7 +25,7 @@ public class Address {
     @JoinTable(name = "addresses_companies",
             joinColumns = {@JoinColumn(name = "address_id")},
             inverseJoinColumns = @JoinColumn(name = "company_id"))
-    @JsonIgnoreProperties(value = {"addresses"})
+    @JsonIgnoreProperties(value = {"companyAddresses"})
     private Set<Company> companies = new HashSet<>();
 
     public Address() {
