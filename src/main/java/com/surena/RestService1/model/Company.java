@@ -1,6 +1,7 @@
 package com.surena.RestService1.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,7 +20,13 @@ public class Company {
     private User user;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "companies")
-    private Set<Address> addresses = new HashSet<>();
+    @JsonIgnoreProperties(value = {"companies"})
+    private Set<Address> userAddresses = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ca_fid", referencedColumnName = "id")
+    private Set<Address> companyAddresses = new HashSet<>();
+
 
     public Company() {
     }
@@ -51,12 +58,20 @@ public class Company {
     }
 
     @JsonIgnore
-    public Set<Address> getAddresses() {
-        return addresses;
+    public Set<Address> getUserAddresses() {
+        return userAddresses;
     }
 
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
+    public void setUserAddresses(Set<Address> addresses) {
+        this.userAddresses = addresses;
     }
 
+
+    public Set<Address> getCompanyAddresses() {
+        return companyAddresses;
+    }
+
+    public void setCompanyAddresses(Set<Address> addressSet) {
+        this.companyAddresses = addressSet;
+    }
 }
