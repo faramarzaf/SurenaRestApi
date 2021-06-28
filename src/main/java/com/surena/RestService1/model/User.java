@@ -137,7 +137,6 @@ public class User {
         this.addresses = addresses;
     }
 
-
     /**
      * @Override equals for save_user method in UserServiceTest class.
      */

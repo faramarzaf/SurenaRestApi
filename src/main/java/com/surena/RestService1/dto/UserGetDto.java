@@ -2,6 +2,7 @@ package com.surena.RestService1.dto;
 
 import com.surena.RestService1.model.Address;
 import com.surena.RestService1.model.Company;
+import com.surena.RestService1.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class UserGetDto {
 
     private Company company;
 
-    private List<Address> userAddresses = new ArrayList<>();
+    private List<Address> addresses = new ArrayList<>();
 
     public UserGetDto() {
     }
@@ -105,12 +106,12 @@ public class UserGetDto {
         this.company = company;
     }
 
-    public List<Address> getUserAddresses() {
-        return userAddresses;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setUserAddresses(List<Address> userAddresses) {
-        this.userAddresses = userAddresses;
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
 }
