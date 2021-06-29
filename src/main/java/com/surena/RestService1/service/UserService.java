@@ -1,5 +1,6 @@
 package com.surena.RestService1.service;
 
+import com.surena.RestService1.dto.UserPostDto;
 import com.surena.RestService1.exception.ApiRequestException;
 import com.surena.RestService1.model.User;
 import com.surena.RestService1.repository.UserRepository;
@@ -51,13 +52,19 @@ public class UserService {
     }
 
     @Transactional
-    public User updatePassword(User user, Long id, String encodedPassword) {
+    public User updatePassword(UserPostDto user, Long id, String newPassword) {
         User updatedUser = userRepository.getById(id);
-        if (encodedPassword.equals(updatedUser.getPassword())) {
-            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        String existingPassword = user.getPreviousPassword();
+
+        String dbPassword = updatedUser.getPassword();
+
+        if (passwordEncoder.matches(existingPassword, dbPassword)) {
+            updatedUser.setPassword(passwordEncoder.encode(newPassword));
             return userRepository.save(updatedUser);
-        } else
+        } else {
             throw new ApiRequestException("Invalid password!");
+        }
     }
 
     public List<User> getAllUsers() {

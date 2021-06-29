@@ -2,11 +2,11 @@ package com.surena.RestService1.dto;
 
 import com.surena.RestService1.model.Address;
 import com.surena.RestService1.model.Company;
-import com.surena.RestService1.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserGetDto {
 
@@ -15,7 +15,6 @@ public class UserGetDto {
     @NotEmpty
     private String username;
 
-    @NotEmpty
     private String password;
 
     private String first_name;

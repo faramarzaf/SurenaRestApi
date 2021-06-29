@@ -2,7 +2,6 @@ package com.surena.RestService1.dto;
 
 import com.surena.RestService1.model.Address;
 import com.surena.RestService1.model.Company;
-import com.surena.RestService1.model.User;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
@@ -15,8 +14,9 @@ public class UserPostDto {
     @NotEmpty
     private String username;
 
-    @NotEmpty
-    private String password;
+    private String previousPassword;
+
+    private String newPassword;
 
     private String first_name;
 
@@ -33,14 +33,22 @@ public class UserPostDto {
     public UserPostDto() {
     }
 
-    public UserPostDto(Long id, String username, String password, String first_name, String last_name) {
+    public UserPostDto(Long id, String username, String previousPassword, String first_name, String last_name) {
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.previousPassword = previousPassword;
         this.first_name = first_name;
         this.last_name = last_name;
     }
 
+    public UserPostDto(Long id, String username, String previousPassword, String newPassword, String first_name, String last_name) {
+        this.id = id;
+        this.username = username;
+        this.previousPassword = previousPassword;
+        this.newPassword = newPassword;
+        this.first_name = first_name;
+        this.last_name = last_name;
+    }
 
     public Long getId() {
         return id;
@@ -58,12 +66,20 @@ public class UserPostDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPreviousPassword() {
+        return previousPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPreviousPassword(String previousPassword) {
+        this.previousPassword = previousPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     public String getFirst_name() {
@@ -113,5 +129,6 @@ public class UserPostDto {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
 
 }

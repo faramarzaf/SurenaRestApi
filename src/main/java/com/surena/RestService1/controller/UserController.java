@@ -22,8 +22,7 @@ public class UserController {
     private MapStructMapper userMapper;
 
     @PostMapping("/save")
-    public User save(@Valid @RequestBody UserPostDto userPostDto) {
-        User user = userMapper.userPostDtoToUser(userPostDto);
+    public User save(@Valid @RequestBody User user) {
         return service.save(user);
     }
 
@@ -35,11 +34,9 @@ public class UserController {
     }
 
     @RequestMapping(path = "/updatePassword", params = "id", method = RequestMethod.PUT)
-    public User updatePassword(@Valid @RequestBody UserPostDto userPostDto,
-                               @RequestParam("id") Long id,
-                               @RequestHeader(value = "password") String encodedPassword) {
-
-        return service.updatePassword(userMapper.userPostDtoToUser(userPostDto), id, encodedPassword);
+    public User updatePassword(@Valid @RequestBody UserPostDto userPostDto, @RequestParam("id") Long id) {
+        return service.updatePassword(userPostDto, id,
+              userPostDto.getNewPassword());
     }
 
     @GetMapping
