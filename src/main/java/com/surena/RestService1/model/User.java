@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -136,6 +135,7 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+
 
     /**
      * @Override equals for save_user method in UserServiceTest class.

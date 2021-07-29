@@ -15,6 +15,12 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+
+/**
+ *  It seems if put @DataJpaTest it does not affect on db. (check with SpringBootTest and without)
+ *  If only @SpringBootTest it wil be save in db.
+ */
+
 public class RepositoryTest {
 
 
